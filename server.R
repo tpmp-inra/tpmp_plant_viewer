@@ -154,20 +154,26 @@ shinyServer(function(input, output) {
         }
       }
         
-      mdf <- melt(plants_to_plot,id.vars=c(xv, "plant", "treatment"),measure.vars=yv)
+      if ("treatment" %in% colnames(df)) {
+        mdf <- melt(plants_to_plot,id.vars=c(xv, "plant", "treatment"),measure.vars=yv)
+      } else {
+        mdf <- melt(plants_to_plot,id.vars=c(xv, "plant"),measure.vars=yv)
+      }
       
       # Plot the dots
       gg <- ggplot(data=mdf, aes_string(x=xv,y="value",color="variable"))
       
       # Use different colour for each treatment
-      gg <- gg + geom_rect(aes_string(linetype = "treatment"), 
-                           colour = "black", 
-                           fill = "white", 
-                           size = 2,
-                           xmin = -Inf,
-                           xmax = Inf, 
-                           ymin = -Inf,
-                           ymax = Inf)
+      if ("treatment" %in% colnames(df)) {
+        gg <- gg + geom_rect(aes_string(linetype = "treatment"), 
+                             colour = "black", 
+                             fill = "white", 
+                             size = 2,
+                             xmin = -Inf,
+                             xmax = Inf, 
+                             ymin = -Inf,
+                             ymax = Inf)
+      }
       
       # Select display mode
       gg <- gg + geom_line(size = 2)
