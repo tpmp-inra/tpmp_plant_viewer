@@ -17,12 +17,14 @@ library(reshape2)
 library(data.table)
 library(RColorBrewer)
 library(shinyWidgets)
-
-source("./shiny_common.R")
+library(gtools)
+library(shinyCommon)
 
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
+  
+  options(shiny.maxRequestSize=30*1024^2) 
    
   #This function is repsonsible for loading in the selected file
   filedata <- reactive({

@@ -17,6 +17,7 @@ library(reshape2)
 library(data.table)
 library(RColorBrewer)
 library(shinyWidgets)
+library(shinyCommon)
 
 
 # Define UI for application that draws a histogram
