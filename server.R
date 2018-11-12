@@ -18,7 +18,8 @@ library(data.table)
 library(RColorBrewer)
 library(shinyWidgets)
 library(gtools)
-library(shinyCommon)
+
+source('./shiny_common_all.R')
 
 
 # Define server logic required to draw a histogram
@@ -188,13 +189,11 @@ shinyServer(function(input, output) {
       # # Split the plots
       gg <- gg + facet_wrap("plant")
       
-      gg <- gg + theme(#legend.position = c(0.9, 0.08),
-                       #legend.box.background = element_rect(),
-                       legend.title = element_text(size=18, face = "bold"),
-                       legend.text=element_text(size=15),
-                       axis.text=element_text(size=10),
-                       axis.title=element_text(size=24,face="bold"),
-                       title = element_text(size=10))
+      gg <- gg + theme(legend.title = element_text(size=32, face = "bold"),
+                       legend.text=element_text(size=30),
+                       axis.text=element_text(size=20),
+                       axis.title=element_text(size=22,face="bold"),
+                       title = element_text(size=20))
       
       gg
     }  
