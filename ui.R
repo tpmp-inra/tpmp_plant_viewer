@@ -37,6 +37,8 @@ shinyUI(pageWithSidebar(
     
     uiOutput("cbPlantSelection"),
     
+    uiOutput("chkShowOutliers"),
+    
     fluidRow(
       column(6, uiOutput("xAxisCombo")),
       column(6, uiOutput("yAxisCombo"))

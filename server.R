@@ -25,7 +25,7 @@ source('./shiny_common_all.R')
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
   
-  options(shiny.maxRequestSize=30*1024^2) 
+  options(shiny.maxRequestSize=30*1024^2) # Still not sure it's a good idea
    
   #This function is repsonsible for loading in the selected file
   filedata <- reactive({
@@ -45,7 +45,7 @@ shinyServer(function(input, output) {
     df <-filedata()
     if (is.null(df)) return(NULL)
     new_df <- df[sapply(df,is.numeric)]
-    dsnames <- names(new_df)
+    dsnames <- names(df)
     cb_options <- list()
     cb_options[ dsnames] <- dsnames
     selectInput("xAxisCombo", "X Axis:", choices = cb_options, selected = "day_after_start")
@@ -80,6 +80,16 @@ shinyServer(function(input, output) {
     df <-filedata()
     if (is.null(df)) return(NULL)
     fill_normalization_cb()
+  })
+  
+  output$chkShowOutliers <- renderUI({
+    df <-filedata()
+    if (is.null(df)) return(NULL)
+    if ("outlier" %in% colnames(df)) {
+      checkboxInput("chkShowOutliers", paste('Show outliers (', length(which(df$outlier==1)), ')', sep=''), TRUE)
+    } else {
+      checkboxInput("chkShowOutliers", 'No outliers detected, option ignored', FALSE)
+    }
   })
   
   output$smoothingModel <- renderUI({
@@ -129,6 +139,10 @@ shinyServer(function(input, output) {
       
       # Filter by selected plants
       plants_to_plot <- df %>% filter(plant %in% input$cbPlantSelection)
+      
+      if (!input$chkShowOutliers & ("outlier" %in% colnames(df))) {
+        plants_to_plot <- plants_to_plot %>% filter(outlier == 0)
+      }
       
       # Normalize
       if (input$cbNormalizationMethod == "normalization") {
@@ -189,11 +203,13 @@ shinyServer(function(input, output) {
       # # Split the plots
       gg <- gg + facet_wrap("plant")
       
-      gg <- gg + theme(legend.title = element_text(size=32, face = "bold"),
-                       legend.text=element_text(size=30),
-                       axis.text=element_text(size=20),
-                       axis.title=element_text(size=22,face="bold"),
-                       title = element_text(size=20))
+      # gg <- gg + theme(legend.position="none")
+      # 
+      # gg <- gg + theme(legend.title = element_text(size=32, face = "bold"),
+      #                  legend.text=element_text(size=30),
+      #                  axis.text=element_text(size=20),
+      #                  axis.title=element_text(size=22,face="bold"),
+      #                  title = element_text(size=20))
       
       gg
     }  
