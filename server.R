@@ -29,7 +29,7 @@ shinyServer(function(input, output) {
    
   #This function is repsonsible for loading in the selected file
   filedata <- reactive({
-    tmp <- load_experience_csv(input)
+    load_experience_csv(input)
   })
   
   # Populate plants selector
