@@ -19,7 +19,7 @@ library(RColorBrewer)
 library(shinyWidgets)
 library(gtools)
 
-source('./shiny_common_all.R')
+source('../shinyCommon/R/shiny_common_all.R')
 
 
 # Define server logic required to draw a histogram
