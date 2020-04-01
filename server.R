@@ -18,9 +18,9 @@ library(data.table)
 library(RColorBrewer)
 library(shinyWidgets)
 library(gtools)
-
-source('../shinyCommon/R/shiny_common_all.R')
-
+library(devtools)
+devtools::install_github("tpmp-inra/tpmp_shiny_common")
+library(tpmpShinyCommon)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {

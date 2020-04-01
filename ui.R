@@ -17,9 +17,9 @@ library(reshape2)
 library(data.table)
 library(RColorBrewer)
 library(shinyWidgets)
-
-source('../shinyCommon/R/shiny_common_all.R')
-
+library(devtools)
+devtools::install_github("tpmp-inra/tpmp_shiny_common")
+library(tpmpShinyCommon)
 
 # Define UI for application that draws a histogram
 shinyUI(pageWithSidebar(
